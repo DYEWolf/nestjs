@@ -7,6 +7,7 @@ export interface PokemonResponse {
 }
 
 export interface Result {
+  pokemonNumber?: number;
   name: string;
   url: string;
 }
