@@ -13,13 +13,20 @@ export class SeedService {
     private readonly httpService: HttpService,
   ) {}
   async executeSeed() {
+    const headersRequest = {
+      'Accept-Encoding': 'gzip,deflate,compress',
+    };
     const { data } = await firstValueFrom(
-      this.httpService.get('https://pokeapi.co/api/v2/pokemon?limit=650').pipe(
-        catchError((error: AxiosError) => {
-          this.logger.error(error);
-          throw 'An error happened!';
-        }),
-      ),
+      this.httpService
+        .get('https://pokeapi.co/api/v2/pokemon?limit=650', {
+          headers: headersRequest,
+        })
+        .pipe(
+          catchError((error: AxiosError) => {
+            this.logger.error(error);
+            throw 'An error happened!';
+          }),
+        ),
     );
     data.results.forEach(({ name, url }) => {
       const pokemonNumber = +url.split('/')[6];
