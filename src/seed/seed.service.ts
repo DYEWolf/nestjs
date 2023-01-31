@@ -13,15 +13,10 @@ export class SeedService {
     private readonly httpService: HttpService,
   ) {}
   async executeSeed() {
-    const httpsAgent = new https.Agent({
-      rejectUnauthorized: false,
-    });
     const { data } = await firstValueFrom(
-      this.httpService
-        .get('https://pokeapi.co/api/v2/pokemon?limit=650', { httpsAgent })
-        .pipe(
+      this.httpService.get('https://pokeapi.co/api/v2/pokemon?limit=650').pipe(
         catchError((error: AxiosError) => {
-          this.logger.error(error.response);
+          this.logger.error(error);
           throw 'An error happened!';
         }),
       ),
