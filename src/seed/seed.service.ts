@@ -16,10 +16,14 @@ export class SeedService {
     const headersRequest = {
       'Accept-Encoding': 'gzip,deflate,compress',
     };
+    const httpsAgent = new https.Agent({
+      rejectUnauthorized: false,
+    });
     const { data } = await firstValueFrom(
       this.httpService
         .get('https://pokeapi.co/api/v2/pokemon?limit=650', {
           headers: headersRequest,
+          httpsAgent,
         })
         .pipe(
           catchError((error: AxiosError) => {
